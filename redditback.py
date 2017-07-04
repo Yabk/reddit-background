@@ -5,6 +5,7 @@ import urllib
 import random
 import json
 import commands
+import re
 
 """Downloads an image from one of subreddits listed in file
 subreddits.txt and sets it as a background image"""
@@ -29,8 +30,14 @@ def getimgurl(sub):
     text = f.read()
     data = json.loads(text)
 
-    return data['data']['children'][1]['data']['url']
+    posts = data['data']['children']
 
+    for i in range (1, len(posts)):
+        url = posts[i]['data']['url']
+        if (re.search(r'\.img', url)):
+            return url
+
+    return
 
 def setbackground(image):
     """Sets image.jpg as background image"""
@@ -43,7 +50,9 @@ def setbackground(image):
 
 def main():
     sub = getsub()
-    urllib.urlretrieve(getimgurl(sub), 'image.jpg')
+    url = getimgurl(sub)
+    print url
+    urllib.urlretrieve(url, 'image.jpg')
 
     setbackground('image.jpg')
 
