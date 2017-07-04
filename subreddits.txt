@@ -1,6 +1,1 @@
-/r/wallpaper/
-/r/winterporn/
-/r/SpringPorn/
-/r/SummerPorn/
-/r/AutumnPorn/
-/r/VillagePorn/
+/r/EarthPorn/
