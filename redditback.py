@@ -1,12 +1,12 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import sys
 import os
-import urllib
+import shutil
 import random
-import json
-import commands
+import subprocess
 import re
+import requests
 
 """Downloads an image from one of subreddits listed in file
 subreddits.txt and sets it as a background image"""
@@ -27,9 +27,8 @@ def getsub():
 def getimgurl(sub):
     """Returns an image url from hottest post on given sub"""
 
-    f = urllib.urlopen(sub+'hot/.json')
-    text = f.read()
-    data = json.loads(text)
+    response = requests.get(url = sub+'top/.json')
+    data = response.json()
 
     try:
         posts = data['data']['children']
@@ -49,15 +48,19 @@ def setbackground(image):
 
     cmd = 'gsettings set org.gnome.desktop.background picture-uri file://' + os.path.abspath(image)
 
-    commands.getstatusoutput(cmd)
+    subprocess.call(cmd.split())
 
     return
 
 def main():
     sub = getsub()
     url = getimgurl(sub)
-    print url
-    urllib.urlretrieve(url, 'image.jpg')
+    print(url)
+
+    #Downloading image from the url
+    response = requests.get(url, stream=True)
+    with open('image.jpg', 'wb') as out_file:
+        shutil.copyfileobj(response.raw, out_file)
 
     setbackground('image.jpg')
 
