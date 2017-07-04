@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import sys
 import os
 import urllib
 import random
@@ -30,7 +31,11 @@ def getimgurl(sub):
     text = f.read()
     data = json.loads(text)
 
-    posts = data['data']['children']
+    try:
+        posts = data['data']['children']
+    except KeyError:
+        print("Too many requests!\nTry again later.")
+        sys.exit(1)
 
     for i in range (1, len(posts)):
         url = posts[i]['data']['url']
