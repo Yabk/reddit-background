@@ -11,10 +11,12 @@ import requests
 """Downloads an image from one of subreddits listed in file
 subreddits.txt and sets it as a background image"""
 
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
 def getsub():
     """Returns url to a random subreddit from subreddits.txt"""
 
-    f = open('subreddits.txt', 'r')
+    f = open(__location__ + '/subreddits.txt', 'r')
     text = f.read()
     f.close()
 
@@ -63,10 +65,10 @@ def main():
 
     #Downloading image from the url
     response = requests.get(url, stream=True)
-    with open('image.jpg', 'wb') as out_file:
+    with open(__location__ + '/image.jpg', 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
 
-    setbackground('image.jpg')
+    setbackground(__location__ + '/image.jpg')
 
 if __name__ == '__main__':
     main()
