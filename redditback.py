@@ -22,12 +22,16 @@ def getsub():
     if subreddits[-1] == '':
         subreddits.pop(-1)
 
-    return 'https://www.reddit.com' + random.choice(subreddits)
+    sub = random.choice(subreddits)
+
+    print(sub)
+
+    return 'https://www.reddit.com' + sub
 
 def getimgurl(sub):
-    """Returns an image url from hottest post on given sub"""
+    """Returns an image url from top post on given sub"""
 
-    response = requests.get(url = sub+'top/.json')
+    response = requests.get(url = sub+'top/.json', headers = {'User-agent': 'reddit-background.bot'})
     data = response.json()
 
     try:
