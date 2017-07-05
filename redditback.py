@@ -36,9 +36,9 @@ def getimgurl(sub):
         print("Too many requests!\nTry again later.")
         sys.exit(1)
 
-    for i in range (1, len(posts)):
+    for i in range (len(posts)):
         url = posts[i]['data']['url']
-        if (re.search(r'\.img', url)):
+        if (re.search(r'\.jpg', url)):
             return url
 
     return
