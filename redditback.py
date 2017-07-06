@@ -35,7 +35,12 @@ def getsub():
 def getimg(sub):
     """Downloads and image from top post on given sub"""
 
-    response = requests.get(url = sub+'top/.json', headers = {'User-agent': 'reddit-background.bot'})
+    try:
+        response = requests.get(url = sub+'top/.json', headers = {'User-agent': 'reddit-background.bot'})
+    except requests.exceptions.ConnectionError:
+        print('No connection')
+        sys.exit(1)
+
     data = response.json()
 
     try:
@@ -116,6 +121,6 @@ def main():
 
     if (img):
         setbackground(img)
-    
+
 if __name__ == '__main__':
     main()
