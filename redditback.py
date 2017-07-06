@@ -15,7 +15,7 @@ subreddits.txt and sets it as a background image"""
 
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-def getsub():
+def getsubs():
     """Returns url to a random subreddit from subreddits.txt"""
 
     f = open(__location__ + '/subreddits.txt', 'r')
@@ -26,11 +26,8 @@ def getsub():
     if subreddits[-1] == '':
         subreddits.pop(-1)
 
-    sub = random.choice(subreddits)
-
-    print(sub)
-
-    return 'https://www.reddit.com' + sub
+    random.shuffle(subreddits)
+    return subreddits
 
 def getimg(sub):
     """Downloads and image from top post on given sub"""
@@ -38,6 +35,7 @@ def getimg(sub):
     try:
         response = requests.get(url = sub+'top/.json', headers = {'User-agent': 'reddit-background.bot'})
     except requests.exceptions.ConnectionError:
+        print(sub)
         print('No connection')
         sys.exit(1)
 
@@ -116,11 +114,18 @@ def get_image_size(fname):
         return width, height
 
 def main():
-    sub = getsub()
-    img = getimg(sub)
+    subs = getsubs()
+    while subs:
+        sub = subs.pop(0)
+        print(sub)
+        img = getimg('https://www.reddit.com' + sub)
+        if img:
+            print('OK')
+            setbackground(img)
+            break
 
-    if (img):
-        setbackground(img)
+    if not subs:
+        print("Could not retrieve any images from given subreddits.")
 
 if __name__ == '__main__':
     main()
