@@ -63,7 +63,7 @@ def getimg(sub):
             print('height: ' + str(height))
             if width >= 1920 and height >= 1080:
                 os.rename(__location__ + '/tmp' + ext, __location__ + '/image' + ext)
-                return
+                return __location__ + '/image' + ext
     return
 
 def setbackground(image):
@@ -112,7 +112,10 @@ def get_image_size(fname):
 
 def main():
     sub = getsub()
-    getimg(sub)
+    img = getimg(sub)
 
+    if (img):
+        setbackground(img)
+    
 if __name__ == '__main__':
     main()
