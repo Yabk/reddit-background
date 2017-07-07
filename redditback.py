@@ -29,7 +29,7 @@ def getsubs():
     random.shuffle(subreddits)
     return subreddits
 
-def getimg(sub):
+def getimg(sub, todir):
     """Downloads and image from top post on given sub"""
 
     try:
@@ -66,6 +66,14 @@ def getimg(sub):
             print('height: ' + str(height))
             if width >= 1920 and height >= 1080:
                 os.rename(__location__ + '/tmp' + ext, __location__ + '/image' + ext)
+
+                if todir:
+                    todir = os.path.abspath(todir)
+                    if not os.path.isdir(todir):
+                        os.makedirs(todir)
+
+                    imgname = re.search(r'/\w+'+ext, url).group()
+                    shutil.copyfile(__location__ + '/image' + ext, todir + imgname)
                 return __location__ + '/image' + ext
     return
 
@@ -73,8 +81,6 @@ def setbackground(image):
     """Sets image.jpg as background image"""
 
     cmd = 'gsettings set org.gnome.desktop.background picture-uri file://' + os.path.abspath(image)
-
-    subprocess.call(cmd.split())
 
     return
 
@@ -114,11 +120,25 @@ def get_image_size(fname):
         return width, height
 
 def main():
+    args = sys.argv[1:]
+    todir = None
+
+    if args:
+        if args[0] == '--help' or args[0] == '-h':
+            print('redditback - downloads top image from random subreddit listed in subreddits.txt\n')
+            print('Usage: [--todir|-o dir]')
+            sys.exit()
+        elif args[0] == '--todir' or args[0] == '-o':
+            todir = args[1]
+        else:
+            print('Usage: [--todir|-o dir]')
+            sys.exit()
+
     subs = getsubs()
     while subs:
         sub = subs.pop(0)
         print(sub)
-        img = getimg('https://www.reddit.com' + sub)
+        img = getimg('https://www.reddit.com' + sub, todir)
         if img:
             print('OK')
             setbackground(img)
