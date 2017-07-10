@@ -82,6 +82,8 @@ def setbackground(image):
 
     cmd = 'gsettings set org.gnome.desktop.background picture-uri file://' + os.path.abspath(image)
 
+    os.system(cmd)
+
     return
 
 def get_image_size(fname):
