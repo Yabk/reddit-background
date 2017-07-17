@@ -80,7 +80,7 @@ def getimg(sub, todir):
 def setbackground(image):
     """Sets image.jpg as background image"""
 
-    cmd = 'gsettings set org.gnome.desktop.background picture-uri file://' + os.path.abspath(image)
+    cmd = 'gsettings set org.gnome.desktop.background picture-uri file:' + os.path.abspath(image)
 
     os.system(cmd)
 
