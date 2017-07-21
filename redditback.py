@@ -49,7 +49,7 @@ def getimg(sub, todir):
 
     for i in range (len(posts)):
         url = posts[i]['data']['url']
-        match = re.search(r'.jpg|.png', url)
+        match = re.search(r'\.jpg|\.png', url)
         if (match):
             ext = match.group()
             #Downloading image from the url
@@ -82,6 +82,7 @@ def setbackground(image):
 
     cmd = 'gsettings set org.gnome.desktop.background picture-uri file:' + os.path.abspath(image)
 
+    print(cmd)
     os.system(cmd)
 
     return
@@ -145,9 +146,8 @@ def main():
             print('OK')
             setbackground(img)
             break
-
-    if not subs:
-        print("Could not retrieve any images from given subreddits.")
+        elif not subs:
+            print("Could not retrieve any images from given subreddits.")
 
 if __name__ == '__main__':
     main()
