@@ -13,7 +13,7 @@ import imghdr
 """Downloads an image from one of subreddits listed in file
 subreddits.txt and sets it as a background image"""
 
-__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+__location__ = os.path.abspath(os.path.join(os.path.realpath(__file__), os.pardir))
 
 def getsubs():
     """Returns url to a random subreddit from subreddits.txt"""
