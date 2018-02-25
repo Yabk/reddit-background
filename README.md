@@ -1,7 +1,7 @@
 # reddit-background
 Small python script that downloads image from a subreddit and sets it as wallpaper.
 
-Currently only works on Ubuntu.
+Currently only works on GNOME.
 
 # Automating the script
 The easiest way to automate this script is using Cron.
